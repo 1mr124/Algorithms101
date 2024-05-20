@@ -2,15 +2,19 @@
 
 #Import section
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 
 
 
 class dfs():
     def __init__(self, graphSize=1):
+        self.maze = np.zeros((graphSize,graphSize ))
         self.Graph = self.generateGraph(np.zeros((graphSize,graphSize)))
         self.marked = {node:False for node in self.Graph}
-        self.maze = np.zeros((graphSize,graphSize ))
+        plt.figure(figsize=(8, 8))
+        
 
     def generateGraph(self, mazeArrayPoints):
         '''
@@ -29,7 +33,10 @@ class dfs():
             for y in range(cols):
                 Graph[(x,y)] = []
                 for neighbor in directions:
-                    Graph[(x,y)].append(tuple(np.add((x,y), neighbor)))
+                    MsTwo = tuple(np.add((x,y), neighbor))
+                    if MsTwo[0] < 0 or MsTwo[0] >= len(self.maze) or MsTwo[1] < 0 or MsTwo[1] >= len(self.maze) :
+                        continue
+                    Graph[(x,y)].append(MsTwo)
         return Graph
 
     def visit(self, node):
@@ -46,21 +53,25 @@ class dfs():
 
     def dfs(self, startNode):
         '''
-            a breadth-first search Recursive implementation
+            a d-first search Recursive implementation
 
             Args : 
                 Graph: Adjacency list
                 v : node 
         '''
-      
+    
         self.visit(startNode)
+        self.showUsWtfIsHappening()
         self.marked[startNode] = True
 
         for w in self.Graph[startNode]:
             if not self.marked[w]:
                 self.dfs(w)
 
-
+    def showUsWtfIsHappening(self):
+        plt.imshow(self.maze, cmap='binary', interpolation='nearest')
+        plt.title('DFS Maze Generation')
+        plt.pause(.3)  # Adjust as needed for visualization speed
 
 
     
@@ -73,3 +84,7 @@ if __name__ == '__main__':
     #graph = {'A': ['B', 'S'], 'B': ['A'], 'S': ['A', 'G', 'C'], 'D': ['C'], 'G': ['S', 'F', 'H'], 'H': ['G', 'E'], 'E': ['C', 'H'], 'F': ['C', 'G'], 'C': ['D', 'S', 'E', 'F']}
     #marked = {node:False for node in graph}
     #dfs(Graph=graph,root='A' )
+    m = dfs(10)
+    m.dfs((0,0))
+    
+
