@@ -3,6 +3,7 @@
 #Import section
 import numpy as np
 import matplotlib.pyplot as plt
+from random import shuffle
 
 
 
@@ -63,7 +64,7 @@ class dfs():
         self.visit(startNode)
         self.showUsWtfIsHappening()
         self.marked[startNode] = True
-
+        shuffle(self.Graph[startNode])
         for w in self.Graph[startNode]:
             if not self.marked[w]:
                 self.dfs(w)

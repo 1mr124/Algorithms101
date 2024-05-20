@@ -20,7 +20,7 @@ def dfs_maze_generation(x, y):
     plt.imshow(maze, cmap='binary', interpolation='nearest')
     plt.title('DFS Maze Generation')
        
-    plt.pause(.9)  # Adjust as needed for visualization speed
+    plt.pause(2)  # Adjust as needed for visualization speed
             #plt.close()
     global c
     c += 1
@@ -36,14 +36,15 @@ def dfs_maze_generation(x, y):
         # Check if the neighbor is within bounds and not visited
         if 0 <= nx < N and 0 <= ny < M and maze[nx, ny] == 0:
             # Carve a passage between the current cell and the neighbor
-            maze[x+nx//2,y+ny//2] = 1
+            if 0 <= nx-2*dx < N and 0 <= ny-2*dy < M :
+                maze[x-dx,y-dy] = 1
             dfs_maze_generation(nx, ny)
 
             # Pause to visualize each step (optional)
             
 
 # Start DFS maze generation from the top-left corner (0, 0)
-dfs_maze_generation(0, 0)
+dfs_maze_generation(4,4 )
 
 # Final visualization
 #plt.imshow(maze, cmap='binary', interpolation='nearest')
