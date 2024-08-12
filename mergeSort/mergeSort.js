@@ -62,15 +62,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (var i = 0; i < count; i++) {
             var clonedBar = originalBar.cloneNode();
-            var randomHeight = getRandomHeight(50, 300);
+            var randomHeight = getRandomHeight(50, 420);
             clonedBar.style.height = randomHeight + 'px';
             barContainer.appendChild(clonedBar);
         }
     }
 
+
+
+// Function to introduce a delay
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Async function to loop and wait
+async function loopWithDelay() {
+    for (let i = 1; i <= 42; i++) {
+        console.log(i); // Your code here to execute on each iteration
+        await sleep(2000); // Wait for 2 seconds (2000 milliseconds)
+    }
+}
+
+// Start the loop
+
+
+
     generateButton.addEventListener('click', function() {
-        var numberOfClones = 20; // Change this number as needed
+        var numberOfClones = 1; // Change this number as needed
         generateBars(numberOfClones);
+        async function loopWithDelay() {
+            for (let i = 1; i <= 42; i++) {
+                console.log(i); // Your code here to execute on each iteration
+                generateBars(i);
+
+                await sleep(400); // Wait for 2 seconds (2000 milliseconds)
+                var bars = Array.from(barContainer.getElementsByClassName("bar"));
+
+                // Create an array of objects with the element and its height
+                var barsWithHeights = bars.map(function(item) {
+                    return {
+                        element: item,
+                        height: parseInt(item.style.height, 10)
+                    };
+                });
+        
+                // Sort the array of objects by height
+                var sortedBars = mergeSort(barsWithHeights);
+        
+                // Clear the container and append bars in sorted order
+                barContainer.innerHTML = '';
+                sortedBars.forEach(function(bar) {
+                    barContainer.appendChild(bar.element);
+                });     
+                
+                await sleep(400); // Wait for 2 seconds (2000 milliseconds)
+
+            }
+        }
+        loopWithDelay()
     });
 
     mergeSortButton.addEventListener('click', function() {
@@ -95,3 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Function to introduce a delay
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
